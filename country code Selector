@@ -1,0 +1,78 @@
+<!-- START: Paste this in your header tracking code in Clickfunnels  -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.min.css">
+<style>
+.intl-tel-input {
+    display: block;
+}
+
+.intl-tel-input span {
+    display: initial !important;
+}
+
+.iti-flag {
+    background-image: url("https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/img/flags.png");
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .iti-flag {
+        background-image: url("https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/img/flags@2x.png");
+    }
+}
+</style>
+<!-- END: Paste this in your header tracking code -->
+
+
+
+
+<!-- START: Paste this in your footer tracking code in Clickfunnels  -->
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/intlTelInput.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+// Custom code settings
+var customCodesettings = {
+    validatePhone: true,
+    errorMessage: 'Please enter a valid phone number.'
+};
+
+function markField(field, mark) {
+    if (mark === 'invalid') {
+        field.css('border', '1px solid red');
+    } else if (mark === 'valid') {
+        field.css('border', '');
+    }
+}
+
+$(document).ready(function () {
+    var originalPhoneInput = $('input[name="phone"]');
+    var newInput = $('<input>', { id: 'temp-phone', class: originalPhoneInput.attr('class'), type: 'tel' });
+
+    originalPhoneInput.hide().after(newInput);
+
+    var iti = window.intlTelInput(newInput[0], {
+        utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/js/utils.js',
+        autoPlaceholder: 'polite',
+        separateDialCode: true
+    });
+
+    newInput.on('input', function () {
+        var isValid = iti.isValidNumber();
+        if (isValid) {
+            markField(newInput, 'valid');
+            originalPhoneInput.val(iti.getNumber());
+        } else {
+            markField(newInput, 'invalid');
+        }
+    });
+
+    if (customCodesettings.validatePhone) {
+        $('#cfAR').submit(function (e) {
+            if (!iti.isValidNumber()) {
+                e.preventDefault();
+                markField(newInput, 'invalid');
+                alert(customCodesettings.errorMessage);
+            } 
+        });
+    }
+});
+</script>
+<!-- END: Paste this in your footer tracking code -->
